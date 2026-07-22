@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "att-gateway-py"
+version = "0.1.0"
+description = "Python client and CLI to read and configure AT&T ARRIS fiber gateways (CGW452, BGW320) — including IP Passthrough."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "att-gateway-py contributors" }]
+keywords = ["att", "fiber", "gateway", "arris", "cgw452", "bgw320", "ip-passthrough", "udm"]
+dependencies = [
+    "requests>=2.28",
+    "beautifulsoup4>=4.11",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff>=0.4"]
+
+[project.scripts]
+att-gateway = "att_gateway.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/rjwalters/att-gateway-py"
+Issues = "https://github.com/rjwalters/att-gateway-py/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/att_gateway"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,28 @@
+# Secrets — never commit gateway credentials
+.env
+*.env
+!.env.example
+
+# Captured gateway pages (may contain session/nonce/MAC data)
+captures/
+*.captured.html
+
+# Local, personal gateway notes (real MACs / IPs / access codes) — keep off GitHub
+*.local.md
+NOTES.local
+local/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
