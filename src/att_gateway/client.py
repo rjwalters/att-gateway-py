@@ -35,6 +35,9 @@ PASSTHROUGH_ALLOC_OFF = "normal"           # normal routed/NAT mode
 PASSTHROUGH_MODE_FIXED = "dhcps-fixed"
 PASSTHROUGH_SAVE_BUTTON = "Save"           # the submit button that commits the form
 
+# Seconds per request. Override with ATT_GATEWAY_TIMEOUT (see .env.example).
+DEFAULT_TIMEOUT = 45.0
+
 
 class GatewayClient:
     """Read and configure an AT&T ARRIS gateway over its local web UI."""
@@ -45,7 +48,9 @@ class GatewayClient:
         access_code: Optional[str] = None,
         *,
         verify_tls: bool = False,
-        timeout: int = 15,
+        # The CGW452's home.ha takes ~15 s to answer every time (fw 4.33.5),
+        # so the old 15 s default timed out on login.
+        timeout: float = DEFAULT_TIMEOUT,
         session: Optional[requests.Session] = None,
     ) -> None:
         self.base = f"https://{host}"
@@ -67,6 +72,7 @@ class GatewayClient:
             host=os.environ.get("ATT_GATEWAY_HOST", "192.168.1.254"),
             access_code=os.environ.get("ATT_GATEWAY_ACCESS_CODE") or None,
             verify_tls=os.environ.get("ATT_GATEWAY_VERIFY_TLS", "0") == "1",
+            timeout=float(os.environ.get("ATT_GATEWAY_TIMEOUT") or DEFAULT_TIMEOUT),
             session=session,
         )
 
