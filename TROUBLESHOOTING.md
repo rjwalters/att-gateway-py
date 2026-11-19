@@ -58,3 +58,11 @@ its next hop is no longer `192.168.1.254`.
 Dual-WAN + an inbound service = asymmetric-routing pain and a moving public IP.
 Pin port-forwarded services (Plex `32400`, etc.) to the stable primary WAN via a
 UniFi traffic route; let the AT&T link be failover.
+
+## Symptom: `login()` raises `ReadTimeout`
+
+On the CGW452 (seen on firmware 4.33.5) the home page, `cgi-bin/home.ha`, takes
+about **15 s** to send its first byte, every time; other pages answer in well
+under a second, so it is the gateway, not the network. The client's default
+timeout is 45 s for that reason. If you still time out, raise it with
+`ATT_GATEWAY_TIMEOUT` in `.env`, or pass `timeout=` to `GatewayClient`.
